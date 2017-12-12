@@ -1,6 +1,10 @@
 <center>
 <h1>Bookmark</h1>
-<% @links.each do |link| %>
-  <%= link.url %>
-<% end %>
+<ul id='links'>
+  <% @links.each do |link| %>
+    <li>
+      Title: <%= link.title %>
+      URL:   <%= link.url   %>
+    </li>
+  <% end %>
 </center>
