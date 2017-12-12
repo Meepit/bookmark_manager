@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require_relative './models/link'
+require_relative 'data_mapper_setup'
 
 class Bookmark < Sinatra::Base
   ENV["RACK_ENV"] ||= "development"
@@ -14,7 +14,10 @@ class Bookmark < Sinatra::Base
   end
 
   post '/links' do
-    Link.create(title: params[:title], url: params[:url])
+    tag = Tag.create(name: params[:tags])
+    link = Link.create(title: params[:title], url: params[:url])
+    link.tags << tag
+    link.save # Have to save after appending in a many-to-many relationship
     redirect '/links'
   end
 
