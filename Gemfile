@@ -7,3 +7,5 @@ gem 'data_mapper'
 gem 'dm-postgres-adapter'
 gem 'rspec'
 gem 'sinatra'
+gem 'database_cleaner', group: :test
+gem 'pry'

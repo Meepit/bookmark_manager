@@ -6,8 +6,8 @@ feature "testing infrastructure" do
   end
 
   scenario "homepage has a link" do
-    visit('/links')
     Link.create(url: "http://www.makersacademy.com/", title: "Makers")
+    visit('/links')
     expect(page).to have_content("http://www.makersacademy.com/")
   end
 end
