@@ -8,4 +8,13 @@ class Bookmark < Sinatra::Base
     erb(:links)
   end
 
+  get '/links/new' do
+    erb(:new_links)
+  end
+
+  post '/links' do
+    Link.create(title: params[:title], url: params[:url])
+    redirect '/links'
+  end
+
 end
