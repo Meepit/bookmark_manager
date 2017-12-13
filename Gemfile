@@ -9,3 +9,4 @@ gem 'rspec'
 gem 'sinatra'
 gem 'database_cleaner', group: :test
 gem 'pry'
+gem 'rake'

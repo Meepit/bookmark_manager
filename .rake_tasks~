@@ -1,0 +1,2 @@
+db_management:migrate
+db_management:upgrade
