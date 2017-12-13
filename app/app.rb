@@ -21,5 +21,14 @@ class Bookmark < Sinatra::Base
     redirect '/links'
   end
 
+  post '/tag-filters' do
+    redirect("/tag/#{params[:tag]}")
+  end
+
+  get '/tag/:tag' do |t|
+    @links = Tag.all(:name => t).links
+    erb(:link_filter)
+  end
+
   run! if app_file == $0
 end
