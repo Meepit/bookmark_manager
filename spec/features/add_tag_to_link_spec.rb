@@ -5,7 +5,6 @@ feature 'add tag to link' do
     fill_in :url,   with: "https://www.facebook.com/"
     fill_in :tags,  with: "Social"
     click_button "Add"
-    binding.pry
     expect(page).to have_content("Social")
   end
 end
