@@ -14,10 +14,15 @@ class Bookmark < Sinatra::Base
   end
 
   post '/links' do
-    tag = Tag.create(name: params[:tags])
+    # tag = Tag.create(name: params[:tags])
+    # link = Link.create(title: params[:title], url: params[:url])
+    # link.tags << tag
+    # link.save # Have to save after appending in a many-to-many relationship
     link = Link.create(title: params[:title], url: params[:url])
-    link.tags << tag
-    link.save # Have to save after appending in a many-to-many relationship
+    tags = params[:tags].split(",")
+    tags.each{|tag|
+      link.tags << Tag.create(name: tag)}
+    link.save
     redirect '/links'
   end
 
