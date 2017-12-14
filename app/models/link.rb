@@ -11,5 +11,6 @@ class Link
   def add_tags(tag_str)
     tag_arr = tag_str.split(",").map!{|i| i.gsub(" ", "")}
     tag_arr.each{|tag| self.tags << Tag.first_or_create(name: tag)}
+    self.save
   end
 end

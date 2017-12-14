@@ -1,25 +1,9 @@
 feature "Filter links by" do
   scenario "filter links by tag bubble"do
-    visit('/links/new')
-    fill_in :title, with: "Facebook"
-    fill_in :url,   with: "https://www.facebook.com/"
-    fill_in :tags,   with: "Bubbles"
-    click_button "Add"
-    visit('/links/new')
-    fill_in :title, with: "Github"
-    fill_in :url,   with: "https://www.github.com/"
-    fill_in :tags,   with: "Bubbles"
-    click_button "Add"
-      visit('/links/new')
-    fill_in :title, with: "Yahoo"
-    fill_in :url,   with: "https://www.yahoo.com/"
-    fill_in :tags,   with: "Squares"
-    click_button "Add"
-      visit('/links/new')
-    fill_in :title, with: "Twitter"
-    fill_in :url,   with: "https://www.twitter.com/"
-    fill_in :tags,   with: "Squares"
-    click_button "Add"
+    Link.create(title: "Facebook", url: 'facebook.com', tags: [Tag.first_or_create(name: "Bubbles")])
+    Link.create(title: "Github", url: "github.com", tags: [Tag.first_or_create(name: "Bubbles")])
+    Link.create(title: "Yahoo", url: "yahoo.com", tags: [Tag.first_or_create(name: "Squares")])
+    Link.create(title: "Twitter", url: "twitter.com", tags: [Tag.first_or_create(name: "Squares")])
     visit('/tag/Bubbles')
     expect(page).to have_content("Facebook")
     expect(page).to have_content("Github")
