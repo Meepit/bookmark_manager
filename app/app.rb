@@ -2,6 +2,7 @@ require 'sinatra/base'
 require_relative 'data_mapper_setup'
 
 class Bookmark < Sinatra::Base
+  # Default env should be dev unless explicitly changed
   ENV["RACK_ENV"] ||= "development"
 
   get '/links' do
@@ -14,14 +15,8 @@ class Bookmark < Sinatra::Base
   end
 
   post '/links' do
-    # tag = Tag.create(name: params[:tags])
-    # link = Link.create(title: params[:title], url: params[:url])
-    # link.tags << tag
-    # link.save # Have to save after appending in a many-to-many relationship
     link = Link.create(title: params[:title], url: params[:url])
-    tags = params[:tags].split(",")
-    tags.each{|tag|
-      link.tags << Tag.create(name: tag)}
+    link.add_tags(params[:tags])
     link.save
     redirect '/links'
   end
@@ -31,7 +26,7 @@ class Bookmark < Sinatra::Base
   end
 
   get '/tag/:tag' do |t|
-    @links = Tag.all(:name => t).links
+    @links = Tag.get_links_by_tag(t)
     erb(:link_filter)
   end
 
