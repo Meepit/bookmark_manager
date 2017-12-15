@@ -7,6 +7,7 @@ class Bookmark < Sinatra::Base
   # Default env should be development unless explicitly changed
   ENV["RACK_ENV"] ||= "development"
   enable :sessions
+  set :session_secret, 'probably not really that secret'
 
   get '/links' do
     @user_name = get_current_user.email if get_current_user
@@ -24,7 +25,7 @@ class Bookmark < Sinatra::Base
 
   post '/users' do
     # Need to salt and hash pw before creating user
-    user = User.create(email: params[:email], password: params[:password])
+    user = User.create_with_password(params[:email], params[:password])
     session[:user_name] = user.email
     session[:user_id] = user.id
     redirect '/links'

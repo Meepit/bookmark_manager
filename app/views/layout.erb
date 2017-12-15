@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+   <head>
+     <title> Bookmark Manager To Rule Them All! </title>
+   </head>
+   <body>
+     <h1> Bookmark Manager To Rule Them All! </h1>
+     <% if get_current_user %>
+      Welcome!, <%= get_current_user.email %>
+     <% end %>
+     <%= yield %>
+   </body>
+</html>
