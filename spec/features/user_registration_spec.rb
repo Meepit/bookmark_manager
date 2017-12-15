@@ -19,5 +19,12 @@ feature 'Registering a user' do
     expect(page).to have_content("Check yer passwords!")
     expect(User.count).to eq user_count
   end
-
+  scenario 'An email should persist when passwords do not match' do
+    visit '/users/new'
+    fill_in 'email', with: "testemail@testserver.com"
+    fill_in 'password', with: "testpassword"
+    fill_in 'confirm', with: "Not my password"
+    click_on "create"
+    expect(find_field('email').value).to eq "testemail@testserver.com"
+  end
 end

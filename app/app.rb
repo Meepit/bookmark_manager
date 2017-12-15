@@ -22,7 +22,7 @@ class Bookmark < Sinatra::Base
   end
 
   get '/users/new' do
-    @failed = flash[:error]
+    #@failed = flash[:error]
     erb(:new_user)
   end
 
@@ -38,6 +38,7 @@ class Bookmark < Sinatra::Base
       session[:user_id] = user.id
       redirect '/links'
     else
+      flash.next[:email] = params[:email]
       flash.next[:error] = "Check yer passwords!"
       redirect '/users/new'
     end

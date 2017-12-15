@@ -1,7 +1,7 @@
 <h1> Register </h1>
-<%= @failed if @failed %>
+<%= flash[:error] if flash[:error] %>
 <form action="/users" method="post">
-  Email: <input type="text" name="email">
+  Email: <input type="text" name="email" value=<%= flash[:email] %>>
   Password: <input type="password" name="password">
   Confirm Password: <input type="password" name="confirm">
   <input type="submit" value="create">
