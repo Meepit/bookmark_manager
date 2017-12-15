@@ -1,5 +1,5 @@
 <h1> Register </h1>
-<%= "Check yer passwords!" if @failed %>
+<%= @failed if @failed %>
 <form action="/users" method="post">
   Email: <input type="text" name="email">
   Password: <input type="password" name="password">

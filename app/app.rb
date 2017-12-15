@@ -1,9 +1,11 @@
 require 'sinatra/base'
 require_relative 'bookmark_helper'
 require_relative 'data_mapper_setup'
+require 'sinatra/flash'
 
 class Bookmark < Sinatra::Base
   include BookmarkHelper
+  register Sinatra::Flash
   # Default env should be development unless explicitly changed
   ENV["RACK_ENV"] ||= "development"
   enable :sessions
@@ -20,13 +22,13 @@ class Bookmark < Sinatra::Base
   end
 
   get '/users/new' do
-    @failed = params[:failed]
+    @failed = flash[:error]
     erb(:new_user)
   end
 
   post '/users' do
     # Need to salt and hash pw before creating user
-    
+
      user = User.create(email: params[:email], password: params[:password],password_confirmation: params[:confirm])
 
      p User.all
@@ -36,8 +38,8 @@ class Bookmark < Sinatra::Base
       session[:user_id] = user.id
       redirect '/links'
     else
-      p "failed this time"
-      redirect '/users/new?failed=true'
+      flash.next[:error] = "Check yer passwords!"
+      redirect '/users/new'
     end
   end
 

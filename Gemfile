@@ -11,3 +11,4 @@ gem 'database_cleaner', group: :test
 gem 'pry'
 gem 'rake'
 gem 'bcrypt'
+gem 'sinatra-flash'
