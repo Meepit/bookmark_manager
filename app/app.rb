@@ -26,9 +26,28 @@ class Bookmark < Sinatra::Base
     erb(:new_user)
   end
 
+  get '/users/sign_in' do
+    erb(:sign_in)
+  end
+
+  post '/users/sign_in' do
+
+    user = User.first(email: params[:email])
+  
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect '/links'
+    else
+      flash.next[:error] = "Authentication failed"
+      redirect '/users/sign_in'
+    end
+  end
+
   post '/users' do
     # Need to salt and hash pw before creating user
+
     user = User.create(email: params[:email], password: params[:password],password_confirmation: params[:confirm])
+
     if user.save
       session[:user_name] = user.email
       session[:user_id] = user.id
@@ -54,6 +73,8 @@ class Bookmark < Sinatra::Base
     @links = Tag.get_links_by_tag(t)
     erb(:link_filter)
   end
+
+
 
   run! if app_file == $0
 end

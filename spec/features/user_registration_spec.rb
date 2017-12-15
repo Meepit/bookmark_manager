@@ -41,14 +41,14 @@ feature 'Registering a user' do
     expect(User.count).to eq user_count
   end
   scenario "shouldn't be able to sign in with an invalid email address" do
-  	sign_in("dlfjahldksf", "pass", "pass")
+  	sign_up("dlfjahldksf", "pass", "pass")
   	expect(page).not_to have_content("Welcome")
     expect(User.count).to eq user_count
   end
   scenario 'User cannot sign up with an email address in use' do
 
-    sign_in("hello@gmail.com", "password", "password")
-    sign_in("hello@gmail.com", "password", "password")
+    sign_up("hello@gmail.com", "password", "password")
+    sign_up("hello@gmail.com", "password", "password")
     expect(page).not_to have_content("Welcome")
     expect(page).to have_content("Email address already in use!")
     expect(User.count).to eq user_count
