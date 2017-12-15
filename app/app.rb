@@ -20,15 +20,23 @@ class Bookmark < Sinatra::Base
   end
 
   get '/users/new' do
+    @failed = params[:failed]
     erb(:new_user)
   end
 
   post '/users' do
     # Need to salt and hash pw before creating user
-    user = User.create_with_password(params[:email], params[:password])
-    session[:user_name] = user.email
-    session[:user_id] = user.id
-    redirect '/links'
+    
+     p user = User.create(email: params[:email], password: params[:password],password_confirmation: params[:confirm])
+    if user
+      p "gets through"
+      session[:user_name] = user.email
+      session[:user_id] = user.id
+      redirect '/links'
+    else
+      p "failed this time"
+      redirect '/users/new?failed=true'
+    end
   end
 
   post '/links' do
