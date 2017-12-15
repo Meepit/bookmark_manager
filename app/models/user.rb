@@ -7,17 +7,19 @@ class User
 
   property :id, Serial
   property :email, String
-  property :password, String
+  property :password_hash, Text
   attr_accessor :password_confirmation
+  attr_reader :password
   
 
-   validates_confirmation_of :password
+   validates_confirmation_of :password, :confirm => :password_confirmation
   # def password
   #   @password #||= Password.new(password_hash)
   # end
 
   def password=(new_password)
-    @password = Password.create(new_password)
+    @password = new_password
+    self.password_hash = Password.create(new_password)
     #self.password_hash = @password
   end
 

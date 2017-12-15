@@ -27,8 +27,10 @@ class Bookmark < Sinatra::Base
   post '/users' do
     # Need to salt and hash pw before creating user
     
-     p user = User.create(email: params[:email], password: params[:password],password_confirmation: params[:confirm])
-    if user
+     user = User.create(email: params[:email], password: params[:password],password_confirmation: params[:confirm])
+
+     p User.all
+    if User.first(email: params[:email])
       p "gets through"
       session[:user_name] = user.email
       session[:user_id] = user.id
