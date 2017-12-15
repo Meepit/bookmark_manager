@@ -1,8 +1,9 @@
 <h1> Register </h1>
 <%= flash[:error] %>
+
 <form action="/users" method="post">
-  Email: <input type="text" name="email" value=<%= flash[:email] %>>
-  Password: <input type="password" name="password">
+  Email: <input type="text" name="email" value="<%= flash[:email] %>" required pattern = ".+@.+">
+  Password: <input type="password" name="password" required>
   Confirm Password: <input type="password" name="confirm">
   <input type="submit" value="create">
 </form>

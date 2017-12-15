@@ -31,15 +31,14 @@ class Bookmark < Sinatra::Base
 
      user = User.create(email: params[:email], password: params[:password],password_confirmation: params[:confirm])
 
-     p User.all
-    if User.first(email: params[:email])
-      p "gets through"
+    
+    if user.save
       session[:user_name] = user.email
       session[:user_id] = user.id
       redirect '/links'
     else
       flash.next[:email] = params[:email]
-      flash.next[:error] = "Check yer passwords!"
+      flash.next[:error] = user.errors.full_messages.join(" ")
       redirect '/users/new'
     end
   end
