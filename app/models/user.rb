@@ -6,14 +6,14 @@ class User
   include BCrypt
 
   property :id, Serial
-  property :email, String, required: true, format: :email_address
+  property :email, String, required: true, unique: true ,format: :email_address, messages: {is_unique: "Email address already in use!"}
   property :password_hash, Text
   attr_accessor :password_confirmation
   attr_reader :password
-  
+
 
    validates_confirmation_of :password
- 
+
 
   def password=(new_password)
     @password = new_password
