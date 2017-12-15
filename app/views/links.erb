@@ -2,8 +2,12 @@
 
   <% if @user_name %>
     <p> Welcome <%= @user_name %>!</p>
+    <form action="/users/sign_out" method="post">
+      <input type="submit" value="sign out">
+    </form>
   <% end %>
-  
+
+  <%= flash[:message] %>
   <h1>Bookmark</h1>
   <ul id='links'>
     <% @links.each do |link| %>
