@@ -1,4 +1,9 @@
 <center>
+
+  <% if @user_name %>
+    <p> Welcome! <%= @user_name %> </p>
+  <% end %>
+  
   <h1>Bookmark</h1>
   <ul id='links'>
     <% @links.each do |link| %>

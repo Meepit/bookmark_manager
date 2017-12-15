@@ -1,11 +1,15 @@
 require 'sinatra/base'
+require_relative 'bookmark_helper'
 require_relative 'data_mapper_setup'
 
 class Bookmark < Sinatra::Base
-  # Default env should be dev unless explicitly changed
+  include BookmarkHelper
+  # Default env should be development unless explicitly changed
   ENV["RACK_ENV"] ||= "development"
+  enable :sessions
 
   get '/links' do
+    @user_name = get_current_user.email if get_current_user
     @links = Link.all
     erb(:links)
   end
@@ -14,14 +18,25 @@ class Bookmark < Sinatra::Base
     erb(:new_links)
   end
 
-  post '/links' do
-    link = Link.create(title: params[:title], url: params[:url])
-    link.add_tags(params[:tags])
-    #link.save
+  get '/users/new' do
+    erb(:new_user)
+  end
+
+  post '/users' do
+    # Need to salt and hash pw before creating user
+    user = User.create(email: params[:email], password: params[:password])
+    session[:user_name] = user.email
+    session[:user_id] = user.id
     redirect '/links'
   end
 
-  post '/tag-filters' do
+  post '/links' do
+    link = Link.create(title: params[:title], url: params[:url])
+    link.add_tags(params[:tags])
+    redirect '/links'
+  end
+
+  post '/tag-filter' do
     redirect("/tag/#{params[:tag]}")
   end
 
